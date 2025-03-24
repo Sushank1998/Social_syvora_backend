@@ -26,30 +26,40 @@ module.exports = {
     const registerUserReqBody = {
       username: req.body.username,
       email: req.body.email,
-      // password: bcrypt.hashSync(req.body.password, 10),
-      password: req.body.password,
+      password: req.body.password, // You should still hash the password here before saving
     };
-
+  
+    // Check if required fields are present
     if (
       !registerUserReqBody.username ||
       !registerUserReqBody.email ||
       !registerUserReqBody.password
     ) {
-      res.status(400).send({
-        message: "please fill form username,password, email",
+      return res.status(400).send({
+        message: "Please fill form with username, password, and email",
       });
-    } else
-      User.create(registerUserReqBody)
-        .then(() => {
-          res.status(201).send({
-            message: "user registration success",
-          });
-        })
-        .catch((err) => {
-          res.status(500).send({
-            message: err.message || "error while registration user",
-          });
+    }
+  
+    // Create the user in the database
+    User.create(registerUserReqBody)
+      .then((user) => {
+        // Generate the JWT token for the newly created user
+        const token = "JWT " + user.generateToken();
+  
+        // Return the success message and include the token
+        res.status(201).send({
+          message: "User registration success",
+          redirectToLogin: true,
+          user: format({ email: registerUserReqBody.email, generateToken: user.generateToken }), // Adjust format function accordingly
+          accessToken: token, // Add the generated token here
         });
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message: err.message || "Error while registering user",
+        });
+        console.log("this is Error==",err)
+      });
   },
 
   // login user
