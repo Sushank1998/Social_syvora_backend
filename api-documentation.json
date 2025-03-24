@@ -1,0 +1,861 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0",
+    "title": "Sosmet - Backend API Documentation",
+    "contact": {}
+  },
+  "host": "sosmetend.herokuapp.com",
+  "basePath": "/api/v1",
+  "schemes": ["https"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/register": {
+      "post": {
+        "summary": "User Resgister",
+        "tags": ["User"],
+        "operationId": "UserResgister",
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserRegisterRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "summary": "User Login",
+        "tags": ["User"],
+        "operationId": "UserLogin",
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/UserLoginRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/all-profiles": {
+      "get": {
+        "summary": "Get Users Profile",
+        "tags": ["User"],
+        "operationId": "GetAllUsersProfile",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/profile/{user_id}": {
+      "get": {
+        "summary": "Get User Profile Public",
+        "tags": ["User"],
+        "operationId": "GetingMyProfile",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/user/profile/me": {
+      "get": {
+        "summary": "Get My Profile",
+        "tags": ["User"],
+        "operationId": "GetUserProfilePublic",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/user/{user_id}": {
+      "put": {
+        "summary": "Update Profile",
+        "tags": ["User"],
+        "operationId": "UpdateProfile",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateProfileRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/avatar/{user_id}": {
+      "put": {
+        "summary": "Upload Avatar",
+        "tags": ["User"],
+        "operationId": "UploadAvatar",
+        "consumes": ["multipart/form-data"],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "image",
+            "in": "formData",
+            "type": "file",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/change_password/{user_id}": {
+      "put": {
+        "summary": "Change Password",
+        "tags": ["User"],
+        "operationId": "ChangePassword",
+        "deprecated": false,
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ChangePasswordRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/new-post-image/{user_id}": {
+      "post": {
+        "summary": "Create Post Image",
+        "tags": ["Post"],
+        "operationId": "CreatePostImage",
+        "consumes": ["multipart/form-data"],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "image",
+            "in": "formData",
+            "type": "file",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/upload-doc/{user_id}": {
+      "post": {
+        "summary": "Upload File",
+        "tags": ["Storage"],
+        "operationId": "UploadFile",
+        "consumes": ["multipart/form-data"],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "file",
+            "in": "formData",
+            "type": "file",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/upload-image/{user_id}": {
+      "post": {
+        "summary": "Upload Image",
+        "tags": ["Storage"],
+        "operationId": "UploadImage",
+        "consumes": ["multipart/form-data"],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "image",
+            "in": "formData",
+            "type": "file",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/upload-video/{user_id}": {
+      "post": {
+        "summary": "Upload Video",
+        "tags": ["Storage"],
+        "operationId": "UploadVideo",
+        "consumes": ["multipart/form-data"],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "video",
+            "in": "formData",
+            "type": "file",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/storage-images/{user_id}": {
+      "get": {
+        "summary": "Fetch Image By User Id",
+        "tags": ["Storage"],
+        "operationId": "FetchImage",
+        "consumes": ["multipart/form-data"],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/storage-videos/{user_id}": {
+      "get": {
+        "summary": "Fetch Videos By User Id",
+        "tags": ["Storage"],
+        "operationId": "FetchVideos",
+        "consumes": ["multipart/form-data"],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/storage-docs/{user_id}": {
+      "get": {
+        "summary": "Fetch Docs By User Id",
+        "tags": ["Storage"],
+        "operationId": "FetchDocs",
+        "consumes": ["multipart/form-data"],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/new-post-text": {
+      "post": {
+        "summary": "Create Post",
+        "tags": ["Post"],
+        "operationId": "CreatePost",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/CreatePostRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/post/{post_id}": {
+      "get": {
+        "summary": "Get Detail Post By Post ID",
+        "tags": ["Post"],
+        "operationId": "GetDetailPostByPostId",
+        "parameters": [
+          {
+            "name": "post_id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/posts/{post_id}": {
+      "get": {
+        "summary": "Get All Post By User ID",
+        "tags": ["Post"],
+        "operationId": "GetAllPostByUserID",
+        "parameters": [
+          {
+            "name": "post_id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/posts": {
+      "get": {
+        "summary": "Get All Posts",
+        "tags": ["Post"],
+        "operationId": "GetAllPosts",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/comment-post": {
+      "post": {
+        "summary": "Create Comment Post",
+        "tags": ["Comment"],
+        "operationId": "CreateCommentPost",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/CreateCommentPostRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/comment/{comment_id}": {
+      "get": {
+        "summary": "Get Detail Comment Post By Comment ID",
+        "tags": ["Comment"],
+        "operationId": "GetDetailCommentPostByCommentId",
+        "parameters": [
+          {
+            "name": "comment_id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/comments/{post_id}": {
+      "get": {
+        "summary": "Get All Post Comment By Post ID",
+        "tags": ["Comment"],
+        "operationId": "GetAllPostCommentByPostID",
+        "parameters": [
+          {
+            "name": "post_id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/comments": {
+      "get": {
+        "summary": "Get All Post Comment",
+        "tags": ["Comment"],
+        "operationId": "GetAllPostComments",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/love-post": {
+      "post": {
+        "summary": "Love Post",
+        "tags": ["Love"],
+        "operationId": "CreateLikePost",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/CreateLovePostRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/total-love/{post_id}": {
+      "get": {
+        "summary": "Count Total Love from all user for this Post",
+        "tags": ["Love"],
+        "operationId": "TotalLovePerPost",
+        "parameters": [
+          {
+            "name": "post_id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/love-this-post/{post_id}": {
+      "get": {
+        "summary": "List All User Loved this Post",
+        "tags": ["Love"],
+        "operationId": "LiasAllUserLovedThisPost",
+        "parameters": [
+          {
+            "name": "post_id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "UserRegisterRequest": {
+      "title": "UserRegisterRequest",
+      "example": {
+        "username": "akudicoba",
+        "email": "cobaja@bisa.kan",
+        "password": "janganlihat"
+      },
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "required": ["username", "email", "password"]
+    },
+    "UserLoginRequest": {
+      "title": "UserLoginRequest",
+      "example": {
+        "email": "cobaja@bisa.kan",
+        "password": "janganlihat"
+      },
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "required": ["email", "password"]
+    },
+    "UpdateProfileRequest": {
+      "title": "UpdateProfileRequest",
+      "example": {
+        "username": "lewandowski",
+        "email": "cobaja@bisa.kan",
+        "firstname": "Robert",
+        "lastname": "Lewandowski",
+        "bio": "nyong ki pemain bal balang hlo gggaess!",
+        "birthdate": "1988-08-21",
+        "gender": "Male",
+        "address": "Polish"
+      },
+      "type": "object",
+      "properties": {
+        "firstname": {
+          "type": "string"
+        },
+        "lastname": {
+          "type": "string"
+        },
+        "birthdate": {
+          "type": "string"
+        },
+        "gender": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "firstanme",
+        "lastname",
+        "bio",
+        "birthdate",
+        "gender",
+        "address",
+        "avatar"
+      ]
+    },
+    "CreatePostRequest": {
+      "title": "CreatePostRequest",
+      "example": {
+        "user_id": "2",
+        "content": "Rails API to generate a GIF for every HTTP status code and Vanilla JS frontend | Rails backend",
+        "image": "https://i.pinimg.com/564x/ed/a6/d5/eda6d565f044a889f2630db44e471d48.jpg"
+      },
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        }
+      },
+      "required": ["user_id", "content"]
+    },
+    "ChangePasswordRequest": {
+      "title": "ChangePasswordRequest",
+      "example": {
+        "password": "buatlagi",
+        "confirm_password": "buatlagi"
+      },
+      "type": "object",
+      "properties": {
+        "password": {
+          "type": "string"
+        },
+        "confirm_password": {
+          "type": "string"
+        }
+      },
+      "required": ["password", "confirm_password"]
+    },
+    "CreateCommentPostRequest": {
+      "title": "CreateCommentPostRequest",
+      "example": {
+        "post_id": "5",
+        "user_id": "2",
+        "content": "Ini isi komentar untuk postnya"
+      },
+      "type": "object",
+      "properties": {
+        "post_id": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        }
+      },
+      "required": ["post_id", "user_id", "content"]
+    },
+    "CreateLovePostRequest": {
+      "title": "CreateLovePostRequest",
+      "example": {
+        "post_id": "5",
+        "user_id": "2"
+      },
+      "type": "object",
+      "properties": {
+        "post_id": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "string"
+        }
+      },
+      "required": ["post_id", "user_id"]
+    }
+  },
+  "tags": [
+    {
+      "name": "User"
+    },
+    {
+      "name": "Post"
+    },
+    {
+      "name": "Comment"
+    },
+    {
+      "name": "Love"
+    },
+    {
+      "name": "Storage"
+    }
+  ]
+}
