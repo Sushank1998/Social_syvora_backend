@@ -8,7 +8,7 @@ const { Op } = require('sequelize');
 
 // payload format
 function format(user) {
-  const { id, email,user_id } = user;
+  const { id, email,user_id,username } = user;
   return {
     status_code: 200,
     status: "success",
@@ -16,6 +16,7 @@ function format(user) {
     id,
     email,
     user_id,
+    username,
     accessToken: "JWT " + user.generateToken(),
   };
 }
@@ -47,10 +48,11 @@ module.exports = {
         const token = "JWT " + user.generateToken();
   
         // Return the success message and include the token
+        console.log("username",user )
         res.status(201).send({
           message: "User registration success",
           redirectToLogin: true,
-          user: format({ email: registerUserReqBody.email, generateToken: user.generateToken }), // Adjust format function accordingly
+          user: format({ email: registerUserReqBody.email, generateToken: user.generateToken,username:user.username }), // Adjust format function accordingly
           accessToken: token, // Add the generated token here
         });
       })
