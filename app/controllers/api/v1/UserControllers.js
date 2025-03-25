@@ -16,7 +16,7 @@ function format(user) {
     id,
     email,
     user_id,
-    username,
+    username,profilePicture : user.avatar,
     accessToken: "JWT " + user.generateToken(),
   };
 }
@@ -52,7 +52,17 @@ module.exports = {
         res.status(201).send({
           message: "User registration success",
           redirectToLogin: true,
-          user: format({ email: registerUserReqBody.email, generateToken: user.generateToken,username:user.username }), // Adjust format function accordingly
+          user: format(
+            { 
+              email: registerUserReqBody.email, 
+              generateToken : user.generateToken,
+              username: user.username,         
+              bio:user.bio,
+              profilePicture:user.avatar,
+              user_id:user.user_id,
+              username:user.username
+             
+             }), // Adjust format function accordingly
           accessToken: token, // Add the generated token here
         });
       })
